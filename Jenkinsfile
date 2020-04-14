@@ -19,7 +19,7 @@ pipeline {
        	  		echo "${my_scm_fn}"
        	  		MY_BUILD_VERSION = my_scm_fn.GIT_COMMIT[0..4]
        	  		echo MY_BUILD_VERSION
-       	  		GIT_BRANCH_NAME = c.GIT_BRANCH
+       	  		GIT_BRANCH_NAME = my_scm_fn.GIT_BRANCH
 
        	  		sh "mvn -Drevision=${MY_BUILD_VERSION} clean install"
 
@@ -40,7 +40,7 @@ pipeline {
 				script
 				{
 					
-					bat "mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
+					sh "mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
 					
 				}
 			}
