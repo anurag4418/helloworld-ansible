@@ -50,8 +50,17 @@ pipeline {
 		stage('Deploy') 
 		{
 
-			ansiblePlaybook( playbook: 'copywarfile.yml', inventory: 'hosts', extraVars : [version: "${MY_BUILD_VERSION}-SNAPSHOT"],
+			steps 
+			{
+
+				script
+				{
+
+								ansiblePlaybook( playbook: 'copywarfile.yml', inventory: 'hosts', extraVars : [version: "${MY_BUILD_VERSION}-SNAPSHOT"],
 			disablHostKeyChecking: true, credentialsId: 'ansible', colorized: true)
+					
+				}
+			}
 
 		}
 
