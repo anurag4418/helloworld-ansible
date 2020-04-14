@@ -57,6 +57,7 @@ pipeline {
 				{
 					echo "${MY_BUILD_VERSION}"
 					def proj_version = "${MY_BUILD_VERSION}-SNAPSHOT"
+					echo "${proj_version}"
 					sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible_server', 
 					transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ansible-playbook /etc/ansible/copywarfile.yml -e current_project_version=proj_version', 
 					execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', 
