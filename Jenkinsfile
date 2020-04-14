@@ -40,6 +40,7 @@ pipeline {
 				script
 				{
 					
+                                        def mvnHome = tool name: 'maven3', type: 'maven'
 					sh "${mvnHome}/bin/mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
 					
 				}
