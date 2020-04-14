@@ -39,8 +39,7 @@ pipeline {
 			{
 				script
 				{
-					
-                                        def mvnHome = tool name: 'maven3', type: 'maven'
+					def mvnHome = tool name: 'maven3', type: 'maven'
 					sh "${mvnHome}/bin/mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
 					
 				}
@@ -57,9 +56,11 @@ pipeline {
 				script
 				{
 
-								ansiblePlaybook( playbook: 'copywarfile.yml', inventory: 'hosts', extraVars : [version: "${MY_BUILD_VERSION}-SNAPSHOT"],
-			disablHostKeyChecking: true, credentialsId: 'ansible', colorized: true)
-					
+					sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible_server', transfers: [sshTransfer(cleanRemote: false, excludes: '', 
+					execCommand: 'ansible-playbook /etc/ansible/copywarfile.yml -e extra_var=${MY_BUILD_VERSION}-SNAPSHOT', execTimeout: 120000, flatten: false, 
+					makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], 
+					usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
 				}
 			}
 
