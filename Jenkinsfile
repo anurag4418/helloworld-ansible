@@ -19,15 +19,15 @@ pipeline {
        	  		echo "${my_scm_fn}"
        	  		MY_BUILD_VERSION = my_scm_fn.GIT_COMMIT[0..4]
        	  		echo MY_BUILD_VERSION
-       	  		GIT_BRANCH_NAME = my_scm_fn.GIT_BRANCH
-                        def mvnHome = tool name: 'maven3', type: 'maven'
-                        sh "${mvnHome}/bin/mvn -Drevision=${MY_BUILD_VERSION} clean package"
+       	  		GIT_BRANCH_NAME = c.GIT_BRANCH
+                def mvnHome = tool name: 'maven3', type: 'maven'
+                sh "${mvnHome}/bin/mvn -Drevision=${MY_BUILD_VERSION} clean package"
 
        	  	}
        	  }
        }
 
-		stage("Publish")
+		stage('Publish')
 		{
 			when
 			 {
@@ -40,11 +40,18 @@ pipeline {
 				script
 				{
 					
-                                        def mvnHome = tool name: 'maven3', type: 'maven'
 					sh "${mvnHome}/bin/mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
 					
 				}
 			}
+
+		}
+
+		stage('Deploy') 
+		{
+
+			ansiblePlaybook( playbook: 'copywarfile.yml', inventory: 'hosts', extraVars : [version: "${MY_BUILD_VERSION}-SNAPSHOT"],
+			disablHostKeyChecking: true, credentialsId: 'ansible', colorized: true)
 
 		}
 
