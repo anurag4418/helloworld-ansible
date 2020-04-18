@@ -1,0 +1,36 @@
+# copywarfile.yml
+---
+- hosts: all
+  become: true
+  vars:
+   maven_pom_group_id: com.restful.first
+   maven_pom_artifact_id: helloWorld
+   version: "{{ extra_var }}"
+   maven_pom_package_type: war
+   nexus_repo: http://34.67.186.160:8081/repository/helloworld_snap/
+   username: admin
+   password: admin123
+   path_to_download: /opt
+   tomcat_user: tomcat
+   tomcat_group: tomcat
+   artifact_absolute_path: "/opt/{{ maven_pom_artifact_id }}-{{ extra_var }}.war"
+  tasks:
+    - name: download maven artifact
+      maven_artifact:
+        group_id: "{{ maven_pom_group_id }}"
+        artifact_id: "{{ maven_pom_artifact_id }}"
+        version: "{{ version }}"
+        extension: "{{ maven_pom_package_type }}"
+        repository_url: "{{ nexus_repo }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        dest: "{{ path_to_download }}"
+        owner: "{{ tomcat_user }}"
+        group: "{{ tomcat_group }}"
+
+
+    - name: copy war onto tomcat servers
+      copy:
+        src: "{{ artifact_absolute_path }}"
+        dest: /opt/tomcat/webapps
+        remote_src: yes
