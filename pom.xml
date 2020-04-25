@@ -6,14 +6,14 @@
     <groupId>com.restful.first</groupId>
     <artifactId>helloWorld</artifactId>
     <packaging>war</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}-SNAPSHOT</version>
     <name>helloWorld</name>
 
     <properties>
         <nexus_ip>35.202.93.122</nexus_ip>
         <jersey.version>2.27</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>    
+    </properties>
 
     <build>
         <finalName>helloWorld</finalName>
@@ -53,7 +53,7 @@
                </executions>
                <configuration>
                   <serverId>releases</serverId>
-                  <nexusUrl>http://${nexus_ip}:8081/</nexusUrl>
+                <nexusUrl>http://${nexus_ip}:8081/</nexusUrl>
                   <skipStaging>true</skipStaging>
                </configuration>
             </plugin>

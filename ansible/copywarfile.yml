@@ -6,7 +6,7 @@
    maven_pom_artifact_id: helloWorld
    pom_version: "{{ current_project_version }}"
    maven_pom_package_type: war
-   nexus_repo: http://35.239.125.166:8081/repository/helloworld_snap/
+   nexus_repo: http://35.202.93.122:8081/repository/helloworld_snap/
    username: admin
    password: admin123
    path_to_download: /opt
@@ -31,7 +31,7 @@
     - name: copy war onto tomcat servers
       copy:
         src: "{{ artifact_absolute_path }}"
-        dest: /opt/tomcat/webapps/helloWorld.war
+        dest: "/opt/tomcat/webapps/{{ maven_pom_artifact_id }}.war"
         remote_src: yes
 
     - name: remove war after coying
