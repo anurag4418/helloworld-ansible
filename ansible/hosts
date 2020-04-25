@@ -1,2 +1,4 @@
+# ip addr of tomcat server on which application will be deployd
+
 [web]
-35.239.109.109
+tomcat_ip_addr

@@ -28,9 +28,18 @@
         group: "{{ tomcat_group }}"
       register: download_war
 
-
     - name: copy war onto tomcat servers
       copy:
         src: "{{ artifact_absolute_path }}"
-        dest: /opt/tomcat/webapps
+        dest: /opt/tomcat/webapps/helloWorld.war
         remote_src: yes
+
+    - name: remove war after coying
+      file:
+        path: "/opt/{{ maven_pom_artifact_id }}-{{ current_project_version }}.war"
+        state: absent
+
+    - name: restart tomcat
+      systemd:
+        name: tomcat
+        state: restarted       
