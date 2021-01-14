@@ -10,7 +10,7 @@ pipeline {
 
     stages {
        
-       stage('Scm-Checkout') {
+       stage('Checkout & Build') {
        	  steps {
        	  	script {
 
